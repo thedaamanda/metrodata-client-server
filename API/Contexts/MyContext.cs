@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using API.Models;
+﻿using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Contexts;
 
 public partial class MyContext : DbContext
 {
-    public MyContext()
-    {
-    }
-
     public MyContext(DbContextOptions<MyContext> options)
         : base(options)
     {
