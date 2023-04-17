@@ -25,3 +25,9 @@ public partial class Employee
 
     public virtual Profiling? Profiling { get; set; }
 }
+
+public enum GenderEnum
+{
+    Male,
+    Female
+}

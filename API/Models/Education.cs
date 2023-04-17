@@ -11,7 +11,7 @@ public partial class Education
 
     public string Degree { get; set; } = null!;
 
-    public string Gpa { get; set; } = null!;
+    public decimal Gpa { get; set; }
 
     public int UniversityId { get; set; }
 

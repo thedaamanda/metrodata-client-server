@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using API.Contexts;
 using API.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 
 namespace API.Repositories;
 
@@ -25,27 +27,29 @@ public class GeneralRepository<TKey, TEntity, TContext> : IGeneralRepository<TKe
         return await _context.Set<TEntity>().FindAsync(key);
     }
 
-    public async Task<int> InsertAsync(TEntity entity)
+    public async Task InsertAsync(TEntity entity)
     {
-        await _context.Set<TEntity>().AddAsync(entity);
-        return await _context.SaveChangesAsync();
+        _context.Set<TEntity>().Add(entity);
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<int> UpdateAsync(TEntity entity)
+    public async Task UpdateAsync(TEntity entity)
     {
-        _context.Entry(entity).State = EntityState.Modified;
-        return await _context.SaveChangesAsync();
+        _context.Set<TEntity>().Update(entity);
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<int> DeleteAsync(TKey key)
+    public async Task DeleteAsync(TKey key)
     {
         var entity = await GetByIdAsync(key);
-        if (entity == null)
-        {
-            return 0;
-        }
+        _context.Set<TEntity>().Remove(entity!);
+        await _context.SaveChangesAsync();
+    }
 
-        _context.Set<TEntity>().Remove(entity);
-        return await _context.SaveChangesAsync();
+    public async Task<bool> IsDataExist(TKey key)
+    {
+        bool result = await GetByIdAsync(key) is not null;
+        _context.ChangeTracker.Clear();
+        return result;
     }
 }
