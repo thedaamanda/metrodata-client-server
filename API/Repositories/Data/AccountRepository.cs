@@ -32,27 +32,20 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
 
     public async Task Register(RegisterVM registerVM)
     {
-        using var transaction = _context.Database.BeginTransaction();
+        await using var transaction = _context.Database.BeginTransaction();
         try {
-            var university = new University {
+            var university = _universityRepository.InsertAsync(new University {
                 Name = registerVM.UniversityName
-            };
+            });
 
-            if (await _universityRepository.IsNameExist(registerVM.UniversityName)) {
-
-            } else {
-                await _universityRepository.InsertAsync(university);
-            }
-
-            var education = new Education {
+            var education = await _educationRepository.InsertAsync(new Education {
                 Major = registerVM.Major,
                 Degree = registerVM.Degree,
                 Gpa = registerVM.GPA,
                 UniversityId = university.Id
-            };
-            await _educationRepository.InsertAsync(education);
+            });
 
-            var employee = new Employee {
+            var employee = await _employeeRepository.InsertAsync(new Employee {
                 Nik = registerVM.NIK,
                 FirstName = registerVM.FirstName,
                 LastName = registerVM.LastName,
@@ -61,26 +54,22 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
                 PhoneNumber = registerVM.PhoneNumber,
                 Email = registerVM.Email,
                 HiringDate = DateTime.Now
-            };
-            await _employeeRepository.InsertAsync(employee);
+            });
 
-            var account = new Account {
-                EmployeeNik = employee.Nik,
+            await InsertAsync(new Account {
+                EmployeeNik = employee!.Nik,
                 Password = Hashing.HashPassword(registerVM.Password)
-            };
-            await InsertAsync(account);
+            });
 
-            var accountRole = new AccountRole {
-                AccountNik = registerVM.NIK,
+            await _profilingRepository.InsertAsync(new Profiling {
+                EmployeeNik = employee.Nik,
+                EducationId = education!.Id
+            });
+
+            await _accountRoleRepository.InsertAsync(new AccountRole {
+                AccountNik = employee.Nik,
                 RoleId = 2
-            };
-            await _accountRoleRepository.InsertAsync(accountRole);
-
-            var profiling = new Profiling {
-                EmployeeNik = registerVM.NIK,
-                EducationId = education.Id,
-            };
-            await _profilingRepository.InsertAsync(profiling);
+            });
 
             await transaction.CommitAsync();
         } catch {
