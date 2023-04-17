@@ -34,7 +34,7 @@ public class GeneralRepository<TKey, TEntity, TContext> : IGeneralRepository<TKe
 
     public async Task UpdateAsync(TEntity entity)
     {
-        _context.Set<TEntity>().Update(entity);
+        _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
@@ -45,7 +45,7 @@ public class GeneralRepository<TKey, TEntity, TContext> : IGeneralRepository<TKe
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> IsDataExist(TKey key)
+    public virtual async Task<bool> IsDataExist(TKey key)
     {
         bool result = await GetByIdAsync(key) is not null;
         _context.ChangeTracker.Clear();

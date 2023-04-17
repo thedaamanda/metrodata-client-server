@@ -1,10 +1,16 @@
-﻿using API.Models;
+﻿using System;
+using System.Collections.Generic;
+using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Contexts;
 
 public partial class MyContext : DbContext
 {
+    public MyContext()
+    {
+    }
+
     public MyContext(DbContextOptions<MyContext> options)
         : base(options)
     {
@@ -18,7 +24,7 @@ public partial class MyContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<University> TbMUniversities { get; set; }
+    public virtual DbSet<University> Universities { get; set; }
 
     public virtual DbSet<AccountRole> AccountRoles { get; set; }
 
@@ -57,8 +63,7 @@ public partial class MyContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("degree");
             entity.Property(e => e.Gpa)
-                .HasMaxLength(10)
-                .IsUnicode(false)
+                .HasColumnType("decimal(3, 2)")
                 .HasColumnName("gpa");
             entity.Property(e => e.Major)
                 .HasMaxLength(100)
