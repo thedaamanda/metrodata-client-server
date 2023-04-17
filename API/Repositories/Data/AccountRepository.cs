@@ -1,7 +1,8 @@
 using API.Contexts;
 using API.Models;
-using API.Repositories.Contracts;
+using API.Handler;
 using API.ViewModels;
+using API.Repositories.Contracts;
 
 namespace API.Repositories.Data;
 
@@ -10,18 +11,24 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
     private readonly IUniversityRepository _universityRepository;
     private readonly IEducationRepository _educationRepository;
     private readonly IEmployeeRepository _employeeRepository;
+    private readonly IAccountRoleRepository _accountRoleRepository;
+    private readonly IProfilingRepository _profilingRepository;
 
 
     public AccountRepository(
         MyContext context,
         IUniversityRepository universityRepository,
         IEducationRepository educationRepository,
-        IEmployeeRepository employeeRepository
+        IEmployeeRepository employeeRepository,
+        IAccountRoleRepository accountRoleRepository,
+        IProfilingRepository profilingRepository
         ) : base(context)
     {
         _universityRepository = universityRepository;
         _educationRepository = educationRepository;
         _employeeRepository = employeeRepository;
+        _accountRoleRepository = accountRoleRepository;
+        _profilingRepository = profilingRepository;
     }
 
     public async Task Register(RegisterVM registerVM)
@@ -46,10 +53,35 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
             };
             await _educationRepository.InsertAsync(education);
 
-            // Employee
-            // Account
-            // Profiling
-            // AccountRole
+            var employee = new Employee {
+                Nik = registerVM.NIK,
+                FirstName = registerVM.FirstName,
+                LastName = registerVM.LastName,
+                BirthDate = registerVM.BirthDate,
+                Gender = registerVM.Gender,
+                PhoneNumber = registerVM.PhoneNumber,
+                Email = registerVM.Email,
+                HiringDate = DateTime.Now
+            };
+            await _employeeRepository.InsertAsync(employee);
+
+            var account = new Account {
+                EmployeeNik = employee.Nik,
+                Password = Hashing.HashPassword(registerVM.Password)
+            };
+            await InsertAsync(account);
+
+            var accountRole = new AccountRole {
+                AccountNik = registerVM.NIK,
+                RoleId = 2
+            };
+            await _accountRoleRepository.InsertAsync(accountRole);
+
+            var profiling = new Profiling {
+                EmployeeNik = registerVM.NIK,
+                EducationId = education.Id,
+            };
+            await _profilingRepository.InsertAsync(profiling);
 
             await transaction.CommitAsync();
         } catch {
@@ -71,7 +103,7 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
                                             })
                                       .FirstOrDefault(ud => ud.Email == loginVM.Email);
 
-        return getUserData is not null && loginVM.Password == getUserData.Password;
+        return getUserData is not null && Hashing.ValidatePassword(loginVM.Password, getUserData.Password);
     }
 
     public Task<UserDataVM> GetUserData(string email)
