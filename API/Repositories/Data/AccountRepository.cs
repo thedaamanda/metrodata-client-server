@@ -20,7 +20,7 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
         IEducationRepository educationRepository,
         IEmployeeRepository employeeRepository,
         IAccountRoleRepository accountRoleRepository,
-        IProfilingRepository profilingRepository,
+        IProfilingRepository profilingRepository
         ) : base(context)
     {
         _universityRepository = universityRepository;
@@ -125,7 +125,7 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
     public async Task<IEnumerable<string>> GetRolesByEmail(string email)
     {
         var getNIK = await _employeeRepository.GetByEmail(email);
-        var getRoles = await _accountRoleRepository.GetRolesByNIK(getNIK.Nik);
+        var getRoles = await _accountRoleRepository.GetRolesByNIK(getNIK!.Nik);
 
         return getRoles;
     }

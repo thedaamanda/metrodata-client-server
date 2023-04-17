@@ -17,7 +17,7 @@ public class AccountRoleRepository : GeneralRepository<int, AccountRole, MyConte
         _roleRepository = roleRepository;
     }
 
-    public async Task<IEnumerable<string>> GetByNik(string nik)
+    public async Task<IEnumerable<string>> GetRolesByNIK(string nik)
     {
         var getRoles = await _roleRepository.GetAllAsync();
         var getAccountRoles = await GetAllAsync();

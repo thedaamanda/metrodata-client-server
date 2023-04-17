@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
 namespace API.Models;
 
@@ -21,8 +20,10 @@ public partial class Employee
 
     public string? PhoneNumber { get; set; }
 
+    [JsonIgnore]
     public virtual Account? Account { get; set; }
 
+    [JsonIgnore]
     public virtual Profiling? Profiling { get; set; }
 }
 

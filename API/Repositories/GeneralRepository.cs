@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using API.Contexts;
 using API.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
 
 namespace API.Repositories;
 
