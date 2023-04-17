@@ -14,14 +14,13 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
     private readonly IAccountRoleRepository _accountRoleRepository;
     private readonly IProfilingRepository _profilingRepository;
 
-
     public AccountRepository(
         MyContext context,
         IUniversityRepository universityRepository,
         IEducationRepository educationRepository,
         IEmployeeRepository employeeRepository,
         IAccountRoleRepository accountRoleRepository,
-        IProfilingRepository profilingRepository
+        IProfilingRepository profilingRepository,
         ) : base(context)
     {
         _universityRepository = universityRepository;
@@ -106,8 +105,28 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
         return getUserData is not null && Hashing.ValidatePassword(loginVM.Password, getUserData.Password);
     }
 
-    public Task<UserDataVM> GetUserData(string email)
+    public async Task<UserDataVM> GetUserData(string email)
     {
-        throw new NotImplementedException();
+        var getEmployees = await _employeeRepository.GetAllAsync();
+        var getAccounts = await GetAllAsync();
+
+        var getUserData = getEmployees.Join(getAccounts,
+                                            e => e.Nik,
+                                            a => a.EmployeeNik,
+                                            (e, a) => new UserDataVM {
+                                                FullName = e.FirstName + " " + e.LastName,
+                                                Email = e.Email
+                                            })
+                                      .FirstOrDefault(ud => ud.Email == email);
+
+        return getUserData;
+    }
+
+    public async Task<IEnumerable<string>> GetRolesByEmail(string email)
+    {
+        var getNIK = await _employeeRepository.GetByEmail(email);
+        var getRoles = await _accountRoleRepository.GetRolesByNIK(getNIK.Nik);
+
+        return getRoles;
     }
 }
