@@ -2,6 +2,6 @@ using API.Models;
 
 namespace API.Repositories.Contracts;
 
-public interface IProfilingRepository : IGeneralRepository<int, Profiling>
+public interface IProfilingRepository : IGeneralRepository<string, Profiling>
 {
 }

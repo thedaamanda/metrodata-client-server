@@ -4,7 +4,7 @@ using API.Repositories.Contracts;
 
 namespace API.Repositories.Data;
 
-public class ProfilingRepository : GeneralRepository<int, Profiling, MyContext>, IProfilingRepository
+public class ProfilingRepository : GeneralRepository<string, Profiling, MyContext>, IProfilingRepository
 {
     public ProfilingRepository(MyContext context) : base(context)
     {

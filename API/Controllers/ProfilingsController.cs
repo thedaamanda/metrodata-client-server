@@ -7,7 +7,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProfilingsController : BaseController<int, Profiling, IProfilingRepository>
+public class ProfilingsController : BaseController<string, Profiling, IProfilingRepository>
 {
     public ProfilingsController(IProfilingRepository repository) : base(repository)
     {

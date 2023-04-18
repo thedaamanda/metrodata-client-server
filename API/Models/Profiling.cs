@@ -9,9 +9,9 @@ public partial class Profiling
     public int EducationId { get; set; }
 
     [JsonIgnore]
-    public virtual Education Education { get; set; } = null!;
+    public virtual Education? Education { get; set; }
 
     [JsonIgnore]
 
-    public virtual Employee EmployeeNikNavigation { get; set; } = null!;
+    public virtual Employee? EmployeeNikNavigation { get; set; }
 }
