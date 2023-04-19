@@ -34,7 +34,7 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
     {
         await using var transaction = _context.Database.BeginTransaction();
         try {
-            var university = _universityRepository.InsertAsync(new University {
+            var university = await _universityRepository.InsertAsync(new University {
                 Name = registerVM.UniversityName
             });
 
@@ -42,7 +42,7 @@ public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAc
                 Major = registerVM.Major,
                 Degree = registerVM.Degree,
                 Gpa = registerVM.GPA,
-                UniversityId = university.Id
+                UniversityId = university!.Id
             });
 
             var employee = await _employeeRepository.InsertAsync(new Employee {
