@@ -1,4 +1,6 @@
 ﻿using API.Contexts;
+using API.Handler;
+using API.Handler.Contracts;
 using API.Repositories.Data;
 using API.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,7 @@ builder.Services.AddScoped<IEducationRepository, EducationRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IProfilingRepository, ProfilingRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

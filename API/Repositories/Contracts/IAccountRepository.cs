@@ -3,7 +3,7 @@ using API.ViewModels;
 
 namespace API.Repositories.Contracts;
 
-public interface IAccountRepository : IGeneralRepository<int, Account>
+public interface IAccountRepository : IGeneralRepository<string, Account>
 {
     Task Register(RegisterVM registerVM);
     Task<bool> Login(LoginVM loginVM);

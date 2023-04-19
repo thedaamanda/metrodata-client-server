@@ -6,7 +6,7 @@ using API.Repositories.Contracts;
 
 namespace API.Repositories.Data;
 
-public class AccountRepository : GeneralRepository<int, Account, MyContext>, IAccountRepository
+public class AccountRepository : GeneralRepository<string, Account, MyContext>, IAccountRepository
 {
     private readonly IUniversityRepository _universityRepository;
     private readonly IEducationRepository _educationRepository;

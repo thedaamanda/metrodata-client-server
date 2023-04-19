@@ -6,7 +6,7 @@ namespace API.Base;
 
 [Route("api/[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class BaseController<Key, Entity, Repository> : ControllerBase
     where Entity : class
     where Repository : IGeneralRepository<Key, Entity>

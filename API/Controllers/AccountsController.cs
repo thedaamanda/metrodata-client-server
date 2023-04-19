@@ -3,25 +3,23 @@ using API.Repositories.Contracts;
 using API.Models;
 using API.ViewModels;
 using API.Base;
+using API.Handler.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AccountsController : BaseController<int, Account, IAccountRepository>
+public class AccountsController : BaseController<string, Account, IAccountRepository>
 {
     private readonly IAccountRepository repository;
-    private readonly IConfiguration configuration;
+    private readonly ITokenService tokenService;
 
-    public AccountsController(IAccountRepository repository, IConfiguration configuration) : base(repository)
+    public AccountsController(IAccountRepository repository, ITokenService tokenService) : base(repository)
     {
         this.repository = repository;
-        this.configuration = configuration;
+        this.tokenService = tokenService;
     }
 
     [HttpPost("Register")]
@@ -66,19 +64,9 @@ public class AccountsController : BaseController<int, Account, IAccountRepositor
                 claims.Add(new Claim(ClaimTypes.Role, item));
             }
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                issuer: configuration["JWT:Issuer"],
-                audience: configuration["JWT:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
-                signingCredentials: credentials
-            );
+            var accessToken = tokenService.GenerateAccessToken(claims);
 
-            var generatedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = generatedToken });
+            return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = accessToken });
         }
         catch
         {
