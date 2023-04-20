@@ -21,4 +21,13 @@ public class ProfilingsController : BaseController<string, Profiling, IProfiling
             ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
             : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
     }
+
+        [HttpGet("TotalByMajor")]
+        public async Task<ActionResult> GetEmployeesTotalByMajorAndUniversity()
+        {
+            var result = await _repository.GetEmployeesTotalByMajorAndUniversity();
+            return result is null
+                ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
+                : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
+        }
 }
