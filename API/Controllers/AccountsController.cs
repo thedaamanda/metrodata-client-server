@@ -13,12 +13,10 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class AccountsController : BaseController<string, Account, IAccountRepository>
 {
-    private readonly IAccountRepository repository;
     private readonly ITokenService tokenService;
 
     public AccountsController(IAccountRepository repository, ITokenService tokenService) : base(repository)
     {
-        this.repository = repository;
         this.tokenService = tokenService;
     }
 
@@ -28,7 +26,7 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
     {
         try
         {
-            await repository.Register(registerVM);
+            await _repository.Register(registerVM);
 
             return Ok(new { code = StatusCodes.Status200OK, message = "Register Succesfully!" });
         }
@@ -44,12 +42,12 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
     {
         try
         {
-            var result = await repository.Login(loginVM);
+            var result = await _repository.Login(loginVM);
 
             if (result is false)
                 return BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Account Email or Password Does not Match!" });
 
-            var userdata = await repository.GetUserData(loginVM.Email);
+            var userdata = await _repository.GetUserData(loginVM.Email);
 
             var claims = new List<Claim>()
             {
@@ -58,7 +56,7 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
                 new Claim(ClaimTypes.NameIdentifier, userdata.FullName)
             };
 
-            var getRoles = await repository.GetRolesByEmail(loginVM.Email);
+            var getRoles = await _repository.GetRolesByEmail(loginVM.Email);
             foreach (var item in getRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, item));

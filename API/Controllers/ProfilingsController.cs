@@ -12,4 +12,13 @@ public class ProfilingsController : BaseController<string, Profiling, IProfiling
     public ProfilingsController(IProfilingRepository repository) : base(repository)
     {
     }
+
+     [HttpGet("WorkPeriod")]
+     public async Task<ActionResult> GetEmployeesByLengthOfWorkDescending()
+    {
+        var result = await _repository.GetEmployeesByLengthOfWorkDescending();
+        return result is null
+            ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
+            : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
+    }
 }

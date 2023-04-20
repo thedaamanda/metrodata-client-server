@@ -11,11 +11,11 @@ public class BaseController<Key, Entity, Repository> : ControllerBase
     where Entity : class
     where Repository : IGeneralRepository<Key, Entity>
 {
-    private readonly Repository repository;
+    protected readonly Repository _repository;
 
     public BaseController(Repository repository)
     {
-        this.repository = repository;
+        this._repository = repository;
     }
 
     [HttpGet]
@@ -23,7 +23,7 @@ public class BaseController<Key, Entity, Repository> : ControllerBase
     {
         try
         {
-            var result = await repository.GetAllAsync();
+            var result = await _repository.GetAllAsync();
             return result.Count() is 0
                 ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
                 : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
@@ -39,7 +39,7 @@ public class BaseController<Key, Entity, Repository> : ControllerBase
     {
         try
         {
-            var result = await repository.GetByIdAsync(key);
+            var result = await _repository.GetByIdAsync(key);
             return result is null
                 ? NotFound(new { code = StatusCodes.Status404NotFound, message = $"Data With Id {key} Not Found!" })
                 : Ok(new { code = StatusCodes.Status200OK, message = $"Data Found!", data = result });
@@ -55,7 +55,7 @@ public class BaseController<Key, Entity, Repository> : ControllerBase
     {
         try
         {
-            var result = await repository.InsertAsync(entity);
+            var result = await _repository.InsertAsync(entity);
 
             return result is null
                 ? BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Something Wrong!" })
@@ -72,14 +72,14 @@ public class BaseController<Key, Entity, Repository> : ControllerBase
     {
         try
         {
-            var result = await repository.IsDataExist(key);
+            var result = await _repository.IsDataExist(key);
 
             if (!result)
             {
                 return NotFound(new { code = StatusCodes.Status404NotFound, message = $"Id {key} Data Not Found" });
             }
 
-            await repository.UpdateAsync(entity);
+            await _repository.UpdateAsync(entity);
 
             return Ok(new { code = StatusCodes.Status200OK, message = "Data Update Succesfully!" });
         }
@@ -94,14 +94,14 @@ public class BaseController<Key, Entity, Repository> : ControllerBase
     {
         try
         {
-            var result = await repository.IsDataExist(key);
+            var result = await _repository.IsDataExist(key);
 
             if (!result)
             {
                 return NotFound(new { code = StatusCodes.Status404NotFound, message = $"Id {key} Data Not Found" });
             }
 
-            await repository.DeleteAsync(key);
+            await _repository.DeleteAsync(key);
 
             return Ok(new { code = StatusCodes.Status200OK, message = "Data Delete Succesfully!" });
         }

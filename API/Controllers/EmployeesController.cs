@@ -9,11 +9,8 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class EmployeesController : BaseController<string, Employee, IEmployeeRepository>
 {
-    private readonly IEmployeeRepository repository;
-
     public EmployeesController(IEmployeeRepository repository) : base(repository)
     {
-        this.repository = repository;
     }
 
     [HttpGet("Master")]
@@ -21,7 +18,7 @@ public class EmployeesController : BaseController<string, Employee, IEmployeeRep
     {
         try
         {
-            var result = await repository.GetEmployeeWithEducationAndUniversity();
+            var result = await _repository.GetEmployeeWithEducationAndUniversity();
 
             return result.Count() is 0
                 ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })

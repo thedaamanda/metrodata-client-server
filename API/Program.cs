@@ -1,5 +1,6 @@
 ﻿using API.Contexts;
 using API.Handler;
+using API.Models;
 using API.Handler.Contracts;
 using API.Repositories.Data;
 using API.Repositories.Contracts;
@@ -62,7 +63,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-var app = builder.Build();
+    var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
