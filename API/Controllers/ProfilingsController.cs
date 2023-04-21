@@ -22,12 +22,21 @@ public class ProfilingsController : BaseController<string, Profiling, IProfiling
             : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
     }
 
-        [HttpGet("TotalByMajor")]
-        public async Task<ActionResult> GetEmployeesTotalByMajorAndUniversity()
-        {
-            var result = await _repository.GetEmployeesTotalByMajorAndUniversity();
-            return result is null
-                ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
-                : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
-        }
+    [HttpGet("TotalByMajor")]
+    public async Task<ActionResult> GetEmployeesTotalByMajorAndUniversity()
+    {
+        var result = await _repository.GetEmployeesTotalByMajorAndUniversity();
+        return result is null
+            ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
+            : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
+    }
+
+    [HttpGet("AvgGPA/{year}")]
+    public async Task<ActionResult> GetEmployeesAboveAvgGPAByMajorAndUniversity(int year)
+    {
+        var result = await _repository.GetEmployeesAboveAvgGPAByMajorAndUniversity(year);
+        return result is null
+            ? NotFound(new { code = StatusCodes.Status404NotFound, message = "Data Not Found!" })
+            : Ok(new { code = StatusCodes.Status200OK, message = "Success", data = result });
+    }
 }
