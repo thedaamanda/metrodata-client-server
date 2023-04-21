@@ -8,6 +8,10 @@ public partial class Account
 
     public string Password { get; set; } = null!;
 
+    public string? RefreshToken { get; set; }
+
+    public DateTime? RefreshTokenExpiryTime { get; set; }
+
     [JsonIgnore]
     public virtual Employee EmployeeNikNavigation { get; set; } = null!;
 

@@ -9,4 +9,5 @@ public interface IAccountRepository : IGeneralRepository<string, Account>
     Task<bool> Login(LoginVM loginVM);
     Task<UserDataVM> GetUserData(string email);
     Task<IEnumerable<string>> GetRolesByEmail(string email);
+    Task UpdateToken(string email, string refreshToken, DateTime expiryTime);
 }

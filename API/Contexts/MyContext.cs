@@ -47,8 +47,12 @@ public partial class MyContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("password");
+            entity.Property(e => e.RefreshToken).HasColumnName("refresh_token");
+            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time");
 
-            entity.HasOne(d => d.EmployeeNikNavigation).WithOne(p => p.Account).HasForeignKey<Account>(d => d.EmployeeNik);
+            entity.HasOne(d => d.EmployeeNikNavigation).WithOne(p => p.Account)
+                .HasForeignKey<Account>(d => d.EmployeeNik)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Education>(entity =>
@@ -71,7 +75,9 @@ public partial class MyContext : DbContext
                 .HasColumnName("major");
             entity.Property(e => e.UniversityId).HasColumnName("university_id");
 
-            entity.HasOne(d => d.University).WithMany(p => p.Educations).HasForeignKey(d => d.UniversityId);
+            entity.HasOne(d => d.University).WithMany(p => p.Educations)
+                .HasForeignKey(d => d.UniversityId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Employee>(entity =>
@@ -148,9 +154,13 @@ public partial class MyContext : DbContext
                 .HasColumnName("account_nik");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
 
-            entity.HasOne(d => d.AccountNikNavigation).WithMany(p => p.AccountRoles).HasForeignKey(d => d.AccountNik);
+            entity.HasOne(d => d.AccountNikNavigation).WithMany(p => p.AccountRoles)
+                .HasForeignKey(d => d.AccountNik)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.Role).WithMany(p => p.AccountRoles).HasForeignKey(d => d.RoleId);
+            entity.HasOne(d => d.Role).WithMany(p => p.AccountRoles)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Profiling>(entity =>
@@ -168,9 +178,13 @@ public partial class MyContext : DbContext
                 .HasColumnName("employee_nik");
             entity.Property(e => e.EducationId).HasColumnName("education_id");
 
-            entity.HasOne(d => d.Education).WithOne(p => p.Profiling).HasForeignKey<Profiling>(d => d.EducationId);
+            entity.HasOne(d => d.Education).WithOne(p => p.Profiling)
+                .HasForeignKey<Profiling>(d => d.EducationId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.EmployeeNikNavigation).WithOne(p => p.Profiling).HasForeignKey<Profiling>(d => d.EmployeeNik);
+            entity.HasOne(d => d.EmployeeNikNavigation).WithOne(p => p.Profiling)
+                .HasForeignKey<Profiling>(d => d.EmployeeNik)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         OnModelCreatingPartial(modelBuilder);

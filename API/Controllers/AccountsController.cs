@@ -68,7 +68,7 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
             var accessToken = tokenService.GenerateAccessToken(claims);
             var refreshToken = tokenService.GenerateRefreshToken();
 
-            // await _repository.UpdateToken(userdata.Email, refreshToken, DateTime.Now.AddDays(1));
+            await _repository.UpdateToken(userdata.Email, refreshToken, DateTime.Now.AddDays(1));
 
             var generatedToken = new
             {

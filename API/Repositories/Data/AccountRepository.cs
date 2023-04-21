@@ -120,4 +120,14 @@ public class AccountRepository : GeneralRepository<string, Account, MyContext>, 
 
         return getRoles;
     }
+
+    public async Task UpdateToken(string email, string refreshToken, DateTime expiryTime)
+    {
+        var getNIK = await _employeeRepository.GetByEmail(email);
+        var account = await GetByIdAsync(getNIK!.Nik);
+        account.RefreshToken = refreshToken;
+        account.RefreshTokenExpiryTime = expiryTime;
+
+        await base.UpdateAsync(account);
+    }
 }
