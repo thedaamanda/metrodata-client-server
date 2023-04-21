@@ -11,6 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Admin")]
 public class AccountsController : BaseController<string, Account, IAccountRepository>
 {
     private readonly ITokenService tokenService;
@@ -65,8 +66,17 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
             }
 
             var accessToken = tokenService.GenerateAccessToken(claims);
+            var refreshToken = tokenService.GenerateRefreshToken();
 
-            return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = accessToken });
+            // await _repository.UpdateToken(userdata.Email, refreshToken, DateTime.Now.AddDays(1));
+
+            var generatedToken = new
+            {
+                Token = accessToken,
+                RefreshToken = refreshToken
+            };
+
+            return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = generatedToken });
         }
         catch
         {
