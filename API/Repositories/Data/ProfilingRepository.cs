@@ -60,43 +60,35 @@ public class ProfilingRepository : GeneralRepository<string, Profiling, MyContex
         var getEducations = await _educationRepository.GetAllAsync();
         var getUniversities = await _universityRepository.GetAllAsync();
 
-        var getEmployeesAboveAvgGPAByDegreeAndUniversity = getProfiling
-            .Join(getEmployees, p => p.EmployeeNik, e => e.Nik, (p, e) => new { p, e })
-            .Join(getEducations, pe => pe.p.EducationId, ed => ed.Id, (pe, ed) => new { pe, ed })
-            .Join(getUniversities, ped => ped.ed.UniversityId, un => un.Id, (ped, un) => new { ped, un })
-            .Where(x => x.ped.pe.e.HiringDate.Year == year)
-            .GroupBy(x => new { x.ped.ed.Major, x.un.Name })
-            .Select(x => new
+        var getEmployeesAboveAvgGPAByDegreeAndUniversity = from profiling in getProfiling
+            join employee in getEmployees on profiling.EmployeeNik equals employee.Nik
+            join education in getEducations on profiling.EducationId equals education.Id
+            join university in getUniversities on education.UniversityId equals university.Id
+            where employee.HiringDate.Year == year
+            group new { employee, education, university } by new { education.Major, university.Name }
+            into g
+            let avgGPA = g.Average(x => x.education.Gpa)
+            from employee in g
+            where employee.education.Gpa > avgGPA
+            select new EmployeeGpaVM
             {
-                Major = x.Key.Major,
-                University = x.Key.Name,
-                AvgGPA = x.Average(y => y.ped.ed.Gpa)
-            })
-            .ToList()
-            .SelectMany(x => getProfiling
-                .Join(getEmployees, p => p.EmployeeNik, e => e.Nik, (p, e) => new { p, e })
-                .Join(getEducations, pe => pe.p.EducationId, ed => ed.Id, (pe, ed) => new { pe, ed })
-                .Join(getUniversities, ped => ped.ed.UniversityId, un => un.Id, (ped, un) => new { ped, un })
-                .Where(y => y.ped.pe.e.HiringDate.Year == year)
-                .Where(y => y.ped.ed.Major == x.Major)
-                .Where(y => y.un.Name == x.University)
-                .Where(y => y.ped.ed.Gpa > x.AvgGPA)
-                .Select(y => new EmployeeGpaVM
+                Major = g.Key.Major,
+                University = g.Key.Name,
+                AvgGpa = avgGPA,
+                Employees = g.Select(x => new EmployeeDetailVM
                 {
-                    NIK = y.ped.pe.e.Nik,
-                    FirstName = y.ped.pe.e.FirstName,
-                    LastName = y.ped.pe.e.LastName,
-                    BirthDate = y.ped.pe.e.BirthDate,
-                    Gender = y.ped.pe.e.Gender,
-                    HiringDate = y.ped.pe.e.HiringDate,
-                    Email = y.ped.pe.e.Email,
-                    PhoneNumber = y.ped.pe.e.PhoneNumber,
-                    Gpa = y.ped.ed.Gpa,
-                    AvgGpa = x.AvgGPA,
-                    Major = y.ped.ed.Major,
-                    University = y.un.Name,
-                })
-            ).ToList();
+                    NIK = x.employee.Nik,
+                    FirstName = x.employee.FirstName,
+                    LastName = x.employee.LastName,
+                    BirthDate = x.employee.BirthDate,
+                    Gender = x.employee.Gender,
+                    Email = x.employee.Email,
+                    HiringDate = x.employee.HiringDate,
+                    PhoneNumber = x.employee.PhoneNumber,
+                    Education = x.education,
+                    University = x.university
+                }).Where(x => x.Education.Gpa > avgGPA)
+            };
 
         return getEmployeesAboveAvgGPAByDegreeAndUniversity;
     }
