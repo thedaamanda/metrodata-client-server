@@ -30,7 +30,7 @@ public class AccountRepository : GeneralRepository<string, Account, MyContext>, 
         _profilingRepository = profilingRepository;
     }
 
-    public async Task Register(RegisterVM registerVM)
+    public async Task<int> Register(RegisterVM registerVM)
     {
         await using var transaction = _context.Database.BeginTransaction();
         try {
@@ -72,8 +72,10 @@ public class AccountRepository : GeneralRepository<string, Account, MyContext>, 
             });
 
             await transaction.CommitAsync();
+            return 1;
         } catch {
             await transaction.RollbackAsync();
+            return 0;
         }
     }
 
