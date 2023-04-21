@@ -17,4 +17,5 @@ public class RegisterVM
     public decimal GPA { get; set; }
     public string UniversityName { get; set; }
     public string Password { get; set; }
+    public int RoleId { get; set; }
 }

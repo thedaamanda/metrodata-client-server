@@ -68,7 +68,7 @@ public class AccountRepository : GeneralRepository<string, Account, MyContext>, 
 
             await _accountRoleRepository.InsertAsync(new AccountRole {
                 AccountNik = employee.Nik,
-                RoleId = 2
+                RoleId = registerVM.RoleId
             });
 
             await transaction.CommitAsync();
