@@ -11,7 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin")]
+// [Authorize(Roles = "Admin")]
 public class AccountsController : BaseController<string, Account, IAccountRepository>
 {
     private readonly ITokenService tokenService;
@@ -70,13 +70,51 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
 
             await _repository.UpdateToken(userdata.Email, refreshToken, DateTime.Now.AddDays(1));
 
-            var generatedToken = new
+            var generatedToken = new TokenResponseVM
             {
                 Token = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                TokenType = "Bearer"
             };
 
             return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = generatedToken });
+        }
+        catch
+        {
+            return BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Something Wrong!" });
+        }
+    }
+
+    [HttpPost]
+    [Route("RefreshToken")]
+    public async Task<IActionResult> Refresh(TokenVM token)
+    {
+        try
+        {
+            if (token is null)
+                return BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Invalid Client Request" });
+
+            var principal = tokenService.GetPrincipalFromExpiredToken(token.AccessToken);
+            var email = principal.Identity.Name;
+
+            var account = await _repository.GetByEmail(email);
+
+            if (account is null || account.RefreshToken != token.RefreshToken || account.RefreshTokenExpiryTime <= DateTime.Now || token.TokenType != "Bearer")
+                return BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Invalid Client Request" });
+
+            var newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
+            var newRefreshToken = tokenService.GenerateRefreshToken();
+
+            await _repository.UpdateToken(email, newRefreshToken);
+
+            var refreshedToken = new TokenResponseVM
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken,
+                TokenType = "Bearer"
+            };
+
+            return Ok(new { code = StatusCodes.Status200OK, message = "Refresh Token Succesfully!", data = refreshedToken });
         }
         catch
         {

@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using API.Repositories.Contracts;
-using Microsoft.AspNetCore.Authorization;
 
 namespace API.Base;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class BaseController<Key, Entity, Repository> : ControllerBase
     where Entity : class
     where Repository : IGeneralRepository<Key, Entity>

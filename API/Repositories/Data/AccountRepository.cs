@@ -121,6 +121,14 @@ public class AccountRepository : GeneralRepository<string, Account, MyContext>, 
         return getRoles;
     }
 
+    public async Task<Account?> GetByEmail(string email)
+    {
+        var getNIK = await _employeeRepository.GetByEmail(email);
+        var getAccount = await GetByIdAsync(getNIK!.Nik);
+
+        return getAccount;
+    }
+
     public async Task UpdateToken(string email, string refreshToken, DateTime expiryTime)
     {
         var getNIK = await _employeeRepository.GetByEmail(email);
@@ -130,4 +138,13 @@ public class AccountRepository : GeneralRepository<string, Account, MyContext>, 
 
         await base.UpdateAsync(account);
     }
-}
+
+    public async Task UpdateToken(string email, string refreshToken)
+    {
+        var getNIK = await _employeeRepository.GetByEmail(email);
+        var account = await GetByIdAsync(getNIK!.Nik);
+        account.RefreshToken = refreshToken;
+
+        await base.UpdateAsync(account);
+    }
+    }
