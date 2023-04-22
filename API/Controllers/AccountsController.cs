@@ -11,7 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-// [Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class AccountsController : BaseController<string, Account, IAccountRepository>
 {
     private readonly ITokenService tokenService;
@@ -87,6 +87,7 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
 
     [HttpPost]
     [Route("RefreshToken")]
+    [AllowAnonymous]
     public async Task<IActionResult> Refresh(TokenVM token)
     {
         try
@@ -120,5 +121,21 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
         {
             return BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Something Wrong!" });
         }
+    }
+
+    [HttpPost]
+    [Route("RevokeToken")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Revoke()
+    {
+        var email = User.Identity.Name;
+
+        var user = await _repository.GetByEmail(email);
+        if (user is null)
+            return BadRequest(new { code = StatusCodes.Status400BadRequest, message = "Invalid Client Request" });
+
+        await _repository.UpdateToken(email, null);
+
+        return NoContent();
     }
 }
