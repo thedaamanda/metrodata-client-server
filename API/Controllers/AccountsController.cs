@@ -30,8 +30,8 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
             var result = await _repository.Register(registerVM);
 
             return result is 0
-                ? Conflict(new { statusCode = 409, message = "Data fail to Insert!" })
-                : Ok(new { statusCode = 200, message = "Register Succesfully!" });
+                ? Conflict(new { code = 409, message = "Data fail to Insert!" })
+                : Ok(new { code = 200, message = "Register Succesfully!" });
         }
         catch
         {
