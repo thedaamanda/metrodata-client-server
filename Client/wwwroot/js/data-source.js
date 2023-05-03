@@ -72,4 +72,28 @@ class DataSource {
             }
         );
     }
+
+    static insertEmployee(employee) {
+        return fetch(`${BASE_URL}api/employees`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(employee)
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson.data) {
+                    return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
 }

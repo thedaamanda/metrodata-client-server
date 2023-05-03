@@ -66,7 +66,50 @@ const fallbackResult = (message) => {
     `;
 };
 
+const insetEmployee = async () => {
+    let object = {
+        nik: $("#nik").val(),
+        firstName: $("#first_name").val(),
+        lastName: $("#last_name").val(),
+        birthDate: $("#birth_date").val(),
+        gender: parseInt($("#gender").val()),
+        hiringDate: $("#hiring_date").val(),
+        email: $("#email").val(),
+        phoneNumber: $("#phone_number").val(),
+    };
+
+    try {
+        await DataSource.insertEmployee(object);
+
+        swal({
+            title: "Success!",
+            text: "Employee has been added",
+            icon: "success",
+            buttons: false,
+            timer: 1500,
+        });
+
+        $("#addModal").modal("hide");
+        $("#employee-table").DataTable().destroy();
+        getEmployees();
+    } catch (message) {
+        swal({
+            title: "Oops...",
+            text: `${message}`,
+            icon: "error",
+        });
+    }
+}
+
+const events = () => {
+    $("#submit-btn").click(function () {
+        console.log("submit");
+        insetEmployee();
+    });
+};
+
 const main = () => {
+    events();
     getEmployees();
 };
 
