@@ -1,0 +1,235 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+}
+
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+h6 {
+    font-size: 0.8rem;
+}
+
+.d-flow-root {
+    display: flow-root;
+}
+
+.text-filter {
+    font-size: 0.7rem;
+    color: #f29a96;
+}
+
+.text-filter:hover {
+    color: #e96d67;
+    text-decoration: none;
+}
+
+.btn {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0.375rem 1rem;
+    font-size: 0.8rem;
+}
+
+.badge {
+    padding: 0.5rem 0.65rem;
+}
+
+/* Jumbotron */
+.jumbotron {
+    border-radius: 1.5rem;
+    background-color: #fce0dc;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 2rem;
+}
+
+.jumbotron h1 {
+    width: 350px;
+    color: #000;
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.jumbotron p {
+    width: 350px;
+    color: #5f5d5d;
+    font-size: 0.9rem;
+}
+
+.jumbotron .btn {
+    font-weight: bold;
+}
+
+.jumbotron .btn:hover {
+    opacity: 0.8;
+}
+
+/* Search */
+input[type='search'] {
+    background-color: #f8f8f8;
+    border: 0;
+}
+
+input[type='search']::placeholder {
+    font-size: 0.8rem;
+    color: #adb5bd;
+}
+
+.search-container {
+    display: flex;
+}
+
+.search-container .form-control {
+    padding-left: 3rem;
+}
+
+.search-container .placeholder-icon {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 3rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #adb5bd;
+}
+
+/* Card Item */
+.card {
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    border: 0;
+}
+
+.card:hover {
+    opacity: 0.7;
+}
+
+.card img.card-img {
+    height: 140px;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.card .card-body {
+    padding: 1.25rem 0 1.25rem 0;
+}
+
+.card .card-body .card-title {
+    font-size: 0.9rem;
+}
+
+.card .card-body .card-text {
+    font-size: 0.7rem;
+}
+
+.icon-svg {
+    width: 11px;
+    margin-top: -3px;
+}
+
+/* Detail Page */
+.details h5 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.details hr {
+    border: 0.1px dashed #ced4da;
+}
+
+.details p,
+.details span,
+.details li {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
+
+.details .img-shadow {
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 15px 2px;
+}
+
+.details .author {
+    font-size: 0.7rem;
+    color: #adb5bd;
+    text-transform: uppercase;
+}
+
+.details .author::before {
+    content: 'by ';
+    font-size: 0.6rem;
+    text-transform: lowercase;
+}
+
+.details .recipe-details .icon-detail-svg {
+    width: 32px;
+    background-color: #fce0dc;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 100%;
+    margin-right: 5px;
+}
+
+.details .card-inggredient {
+    padding: 4%;
+    border: 1px solid #eaeaea;
+    border-image: initial;
+}
+
+.details .card-inggredient .ingredients {
+    padding: 0 0 10px 0;
+    margin: 0px;
+    list-style: none;
+    margin-block-start: 0;
+}
+
+.details .card-inggredient .ingredients li {
+    padding: 10px;
+}
+
+.details .card-inggredient .ingredients li:nth-child(2n + 1) {
+    background-color: #fce0dc;
+}
+
+.details .methods {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    margin-block-start: 0;
+}
+
+.details .methods li {
+    counter-increment: method 1;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f2eb;
+}
+
+.details .methods li::before {
+    content: counter(method) '.';
+    font-weight: 700;
+    font-size: 23px;
+    margin-right: 8px;
+    float: left;
+    line-height: 1;
+}
+
+/* Breadcrump */
+.breadcrumb {
+    font-size: 0.7rem;
+    background-color: transparent;
+    padding: 0;
+}
+
+.breadcrumb .breadcrumb-item a {
+    color: #6c757d;
+}
+
+.breadcrumb .breadcrumb-item.active {
+    color: #000000;
+}
