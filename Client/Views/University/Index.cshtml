@@ -4,7 +4,7 @@
 
 <section class="section">
     <div class="section-header">
-        <h1>Dashboard</h1>
+        <h1>University</h1>
     </div>
 
     <div class="section-body">
@@ -12,23 +12,25 @@
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar Universitas</h4>
+                        <h4>List University</h4>
                         <div class="card-header-action">
                             <a asp-action="Create" class="btn btn-sm btn-primary">Add University</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Universitas</th>
-                                    <th scope="col">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="university-list">
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table-university">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nama Universitas</th>
+                                        <th scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="university-list">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,5 +39,9 @@
 </section>
 
 @section Scripts {
+    <!-- <script src="~/dist/modules/datatables/datatables.min.js"></script>
+    <script src="~/dist/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/dist/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+    <script src="~/dist/modules/jquery-ui/jquery-ui.min.js"></script> -->
     <script src="~/js/university.js"></script>
 }

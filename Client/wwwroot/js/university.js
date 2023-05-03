@@ -5,14 +5,14 @@ const getUniversities = async () => {
         const result = await DataSource.getUniversities();
         renderResult(result);
     } catch (message) {
-        fallbackResult(message)
+        fallbackResult(message);
     }
-}
+};
 
-const renderResult = results => {
-    let data = '';
+const renderResult = (results) => {
+    let data = "";
     let no = 1;
-    results.forEach(result => {
+    results.forEach((result) => {
         data += `
         <tr>
             <td>${no++}</td>
@@ -27,7 +27,7 @@ const renderResult = results => {
     universityListElement.innerHTML = data;
 };
 
-const fallbackResult = message => {
+const fallbackResult = (message) => {
     universityListElement.innerHTML = `
         <tr>
             <td colspan="3">${message}</td>
@@ -35,4 +35,12 @@ const fallbackResult = message => {
     `;
 };
 
-getUniversities();
+const main = () => {
+    getUniversities();
+
+    // $("#table-university").dataTable({
+    //     columnDefs: [{ sortable: false, targets: [2] }],
+    // });
+};
+
+main();

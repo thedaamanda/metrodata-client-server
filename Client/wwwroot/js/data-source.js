@@ -36,4 +36,40 @@ class DataSource {
             }
         );
     }
+
+    static getEmployees() {
+        return fetch(`${BASE_URL}api/employees`)
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson.data) {
+                    return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
+    static getEmployeeById(id) {
+        return fetch(`${BASE_URL}api/employees/${id}`)
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson.data) {
+                    return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
 }

@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="~/dist/modules/weather-icon/css/weather-icons.min.css"  asp-append-version="true" />
     <link rel="stylesheet" href="~/dist/modules/weather-icon/css/weather-icons-wind.min.css"  asp-append-version="true" />
     <link rel="stylesheet" href="~/dist/modules/summernote/summernote-bs4.css"  asp-append-version="true" />
+    <link rel="stylesheet" href="~/dist/modules/datatables/datatables.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/dist/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/dist/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css" asp-append-version="true">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="~/dist/css/style.css"  asp-append-version="true" />
@@ -256,7 +259,6 @@
         </ul>
     </nav>
 
-
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
@@ -275,15 +277,11 @@
                     </ul>
                 </li>
                 <li class="menu-header">Master Data</li>
-                <li><a class="nav-link" asp-area="" asp-controller="University" asp-action="Index"><i class="far fa-square"></i> <span>University</span></a></li>
-                <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Education</span></a></li>
-                <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Role</span></a></li>
+                <li><a class="nav-link" asp-area="" asp-controller="University" asp-action="Index"><i class="fas fa-university"></i> <span>University</span></a></li>
+                <li><a class="nav-link" asp-area="" asp-controller="University" asp-action="Index"><i class="fas fa-graduation-cap"></i> <span>Education</span></a></li>
+                <li><a class="nav-link" asp-area="" asp-controller="Role" asp-action="Index"><i class="fas fa-shield-alt"></i> <span>Role</span></a></li>
+                <li><a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index"><i class="fas fa-users"></i> <span>Employee</span></a></li>
             </ul>
-            <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-                <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-rocket"></i> Documentation
-                </a>
-            </div>
         </aside>
     </div>
 
@@ -318,7 +316,6 @@
   <script src="~/dist/modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
 
   <!-- Page Specific JS File -->
-  <script src="~/dist/js/page/index-0.js"></script>
 
   <!-- Template JS File -->
   <script src="~/dist/js/scripts.js"></script>
