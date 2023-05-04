@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4>List University</h4>
                         <div class="card-header-action">
-                            <a asp-action="Create" class="btn btn-sm btn-primary">Add University</a>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal">Add University</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -37,6 +37,30 @@
         </div>
     </div>
 </section>
+
+<!-- Modal Insert -->
+<div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add University</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name">University Name</label>
+                    <input id="name" type="text" class="form-control" name="name" placeholder="University Name">
+                </div>
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="submit-btn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/university.js"></script>

@@ -7,6 +7,34 @@ const getUniversities = async () => {
     }
 };
 
+const insertUniversity = async () => {
+    let university = {
+        name: $("#name").val(),
+    };
+
+    try {
+        await DataSource.insertUniversity(university);
+
+        swal({
+            title: "Success!",
+            text: "University has been added",
+            icon: "success",
+            buttons: false,
+            timer: 1500,
+        });
+
+        $("#addModal").modal("hide");
+        $("#university-table").DataTable().destroy();
+        getUniversities();
+    } catch (message) {
+        swal({
+            title: "Oops...",
+            text: `${message}`,
+            icon: "error",
+        });
+    }
+};
+
 const renderResult = (results) => {
     $("#university-table").dataTable({
         dom: "Bfrtip",
@@ -57,7 +85,14 @@ const fallbackResult = (message) => {
     `;
 };
 
+const events = () => {
+    $("#submit-btn").click(function () {
+        insertUniversity();
+    });
+};
+
 const main = () => {
+    events();
     getUniversities();
 };
 

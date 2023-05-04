@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Client.Controllers;
 
-public class UniversityController : Controller
+public class EducationController : Controller
 {
     public IActionResult Index()
     {

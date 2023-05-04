@@ -1,42 +1,14 @@
-const getRoles = async () => {
+const getEducation = async () => {
     try {
-        const result = await DataSource.getRoles();
+        const result = await DataSource.getEducation();
         renderResult(result);
     } catch (message) {
         fallbackResult(message);
     }
 };
 
-const insertRole = async () => {
-    let role = {
-        name: $("#name").val(),
-    };
-
-    try {
-        await DataSource.insertRole(role);
-
-        swal({
-            title: "Success!",
-            text: "Role has been added",
-            icon: "success",
-            buttons: false,
-            timer: 1500,
-        });
-
-        $("#addModal").modal("hide");
-        $("#role-table").DataTable().destroy();
-        getRoles();
-    } catch (message) {
-        swal({
-            title: "Oops...",
-            text: `${message}`,
-            icon: "error",
-        });
-    }
-};
-
 const renderResult = (results) => {
-    $("#role-table").dataTable({
+    $("#education-table").dataTable({
         dom: "Bfrtip",
         buttons: [
             { extend: 'copy', text: 'Copy', titleAttr: 'Copy' },
@@ -53,7 +25,9 @@ const renderResult = (results) => {
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-            { data: "name" },
+            { data: "major" },
+            { data: "degree" },
+            { data: "gpa" },
             {
                 data: "",
                 render: function (data, type, row) {
@@ -77,23 +51,16 @@ const renderResult = (results) => {
 };
 
 const fallbackResult = (message) => {
-    const roleListElement = document.querySelector("#role-list");
-    roleListElement.innerHTML = `
+    const educationListElement = document.querySelector("#education-list");
+    educationListElement.innerHTML = `
         <tr>
-            <td colspan="3">${message}</td>
+            <td colspan="5">${message}</td>
         </tr>
     `;
 };
 
-const events = () => {
-    $("#submit-btn").click(function () {
-        insertRole();
-    });
-};
-
 const main = () => {
-    events();
-    getRoles();
+    getEducation();
 };
 
 main();

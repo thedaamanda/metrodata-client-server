@@ -32,7 +32,8 @@ const insertEmployee = async () => {
         });
 
         $("#addModal").modal("hide");
-        $("#employee-table").DataTable().ajax.reload();
+        $("#employee-table").DataTable().destroy();
+        getEmployees();
     } catch (message) {
         swal({
             title: "Oops...",
