@@ -24,8 +24,7 @@ const insertUniversity = async () => {
         });
 
         $('#universityModal').modal('hide');
-        $('#university-table').DataTable().destroy();
-        getUniversities();
+        reloadData();
     } catch (message) {
         swal({
             title: 'Oops...',
@@ -53,8 +52,7 @@ const updateUniversity = async () => {
         });
 
         $('#universityModal').modal('hide');
-        $('#university-table').DataTable().destroy();
-        getUniversities();
+        reloadData();
     } catch (message) {
         swal({
             title: 'Oops...',
@@ -94,36 +92,25 @@ const edit = async (id) => {
 
 const remove = async (id) => {
     try {
-        const result = await DataSource.getUniversityById(id);
-
-        swal({
+        await swal({
             title: 'Are you sure?',
             text: 'Once deleted, you will not be able to recover this data!',
             icon: 'warning',
             buttons: true,
             dangerMode: true,
-        }).then((willDelete) => {
+        }).then(async (willDelete) => {
             if (willDelete) {
-                try {
-                    DataSource.deleteUniversity(result.id);
+                await DataSource.deleteUniversity(id);
 
-                    swal({
-                        title: 'Success!',
-                        text: 'University has been deleted',
-                        icon: 'success',
-                        buttons: false,
-                        timer: 1500,
-                    });
+                swal({
+                    title: 'Success!',
+                    text: 'University has been deleted',
+                    icon: 'success',
+                    buttons: false,
+                    timer: 1500,
+                });
 
-                    $('#university-table').DataTable().destroy();
-                    getUniversities();
-                } catch (message) {
-                    swal({
-                        title: 'Oops...',
-                        text: `${message}`,
-                        icon: 'error',
-                    });
-                }
+                reloadData();
             }
         });
     } catch (message) {
@@ -131,6 +118,21 @@ const remove = async (id) => {
             title: 'Oops...',
             text: `${message}`,
             icon: 'error',
+        });
+    }
+};
+
+const reloadData = async () => {
+    try {
+        const result = await DataSource.getUniversities();
+
+        $("#university-table").DataTable().clear();
+        $("#university-table").DataTable().rows.add(result).draw();
+    } catch (message) {
+        swal({
+            title: "Oops...",
+            text: `${message}`,
+            icon: "error",
         });
     }
 };

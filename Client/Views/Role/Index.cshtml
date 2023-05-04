@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4>List Role</h4>
                         <div class="card-header-action">
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal">Add Role</button>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#roleModal" onclick="add()">Add Role</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -39,7 +39,7 @@
 </section>
 
 <!-- Modal Insert -->
-<div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="roleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -52,12 +52,15 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Role Name</label>
-                        <input id="name" type="text" class="form-control" name="name" placeholder="Role Name">
+                        <input id="name" type="text" class="form-control" name="name" placeholder="Role Name" required="">
+                        <div class="invalid-feedback">
+                            Role Name is required field
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="submit-btn">Save changes</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn" value="add">Save changes</button>
                 </div>
             </form>
         </div>

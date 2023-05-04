@@ -125,6 +125,24 @@ class DataSource {
         );
     }
 
+    static getRoleById(id) {
+        return fetch(`${BASE_URL}api/roles/${id}`)
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson.data) {
+                    return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
     static insertRole(role) {
         return fetch(`${BASE_URL}api/roles`, {
             method: 'POST',
@@ -139,6 +157,50 @@ class DataSource {
             .then(responseJson => {
                 if (responseJson.data) {
                     return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
+    static updateRole(role) {
+        return fetch(`${BASE_URL}api/roles/${role.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(role),
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson) {
+                    return Promise.resolve(responseJson);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
+    static deleteRole(id) {
+        return fetch(`${BASE_URL}api/roles/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson) {
+                    return Promise.resolve(responseJson);
                 } else {
                     return Promise.reject(`Something went wrong`)
                 }
