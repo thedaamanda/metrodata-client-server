@@ -12,20 +12,25 @@
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                      <h4>List Role</h4>
+                        <h4>List Role</h4>
+                        <div class="card-header-action">
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal">Add Role</button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Role</th>
-                                    <th scope="col">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="role-list">
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="role-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nama Role</th>
+                                        <th scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="role-list">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,5 +39,5 @@
 </section>
 
 @section Scripts {
-    <script src="~/js/university.js"></script>
+    <script src="~/js/role.js"></script>
 }
