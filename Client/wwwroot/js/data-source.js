@@ -20,6 +20,24 @@ class DataSource {
         );
     }
 
+    static getUniversityById(id) {
+        return fetch(`${BASE_URL}api/universities/${id}`)
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson.data) {
+                    return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
     static insertUniversity(university) {
         return fetch(`${BASE_URL}api/universities`, {
             method: 'POST',
@@ -34,6 +52,50 @@ class DataSource {
             .then(responseJson => {
                 if (responseJson.data) {
                     return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
+    static updateUniversity(university) {
+        return fetch(`${BASE_URL}api/universities/${university.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(university),
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson) {
+                    return Promise.resolve(responseJson);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
+    static deleteUniversity(id) {
+        return fetch(`${BASE_URL}api/universities/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson) {
+                    return Promise.resolve(responseJson);
                 } else {
                     return Promise.reject(`Something went wrong`)
                 }
