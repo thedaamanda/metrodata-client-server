@@ -37,6 +37,7 @@ class DataSource {
         );
     }
 
+    // Employee
     static getEmployees() {
         return fetch(`${BASE_URL}api/employees`)
             .then(response => {
