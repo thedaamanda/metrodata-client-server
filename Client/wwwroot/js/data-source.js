@@ -249,7 +249,7 @@ class DataSource {
         );
     }
 
-    static getEmployeeById(id) {
+    static getEmployeeByNik(id) {
         return fetch(`${BASE_URL}api/employees/${id}`)
             .then(response => {
                 return response.json()
@@ -289,5 +289,47 @@ class DataSource {
                 return Promise.reject(error)
             }
         );
+    }
+
+    static updateEmployee(employee) {
+        return fetch(`${BASE_URL}api/employees/${employee.nik}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(employee)
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson) {
+                    return Promise.resolve(responseJson);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            });
+    }
+
+    static deleteEmployee(id) {
+        return fetch(`${BASE_URL}api/employees/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson) {
+                    return Promise.resolve(responseJson);
+                } else {
+                    return Promise.reject(`Something went wrong`)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            });
     }
 }

@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4>List Employee</h4>
                         <div class="card-header-action">
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal">Add Employee</button>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#employeeModal">Add Employee</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -40,7 +40,7 @@
 </section>
 
 <!-- Modal Insert -->
-<div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="employeeModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -49,51 +49,71 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="nik">NIK</label>
-                    <input id="nik" type="text" class="form-control" name="nik" placeholder="NIK" autofocus>
-                </div>
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label for="first_name">First Name</label>
-                        <input id="first_name" type="text" class="form-control" name="first_name" placeholder="First Name">
+            <form class="needs-validation" novalidate="">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nik">NIK</label>
+                        <input id="nik" type="text" class="form-control" name="nik" placeholder="NIK" required="" autofocus>
+                        <div class="invalid-feedback">
+                            NIK is required field
+                        </div>
                     </div>
-                    <div class="form-group col-6">
-                        <label for="last_name">Last Name</label>
-                        <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Last Name">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="first_name">First Name</label>
+                            <input id="first_name" type="text" class="form-control" name="first_name" placeholder="First Name" required="">
+                            <div class="invalid-feedback">
+                                First Name is required field
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="last_name">Last Name</label>
+                            <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth_date">Birth Date</label>
+                        <input id="birth_date" type="datetime-local" class="form-control" name="birth_date" required="">
+                        <div class="invalid-feedback">
+                            Birth Date is required field
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender" class="form-control selectric" id="gender" required="">
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Gender is required field
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hiring_date">Hiring Date</label>
+                        <input id="hiring_date" type="datetime-local" class="form-control" name="hiring_date" required="">
+                        <div class="invalid-feedback">
+                            Hiring Date is required field
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" class="form-control" name="email" placeholder="Email" required="">
+                            <div class="invalid-feedback">
+                                Email is required field
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="phone_number">Phone Number</label>
+                            <input id="phone_number" type="text" class="form-control" name="phone_number" placeholder="Phone Number">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="birth_date">Birth Date</label>
-                    <input id="birth_date" type="date" class="form-control" name="birth_date">
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn" value="add">Save changes</button>
                 </div>
-                <div class="form-group">
-                    <label>Gender</label>
-                    <select name="gender" class="form-control selectric" id="gender">
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="hiring_date">Hiring Date</label>
-                    <input id="hiring_date" type="date" class="form-control" name="hiring_date">
-                </div>
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control" name="email" placeholder="Email">
-                    </div>
-                    <div class="form-group col-6">
-                        <label for="phone_number">Phone Number</label>
-                        <input id="phone_number" type="text" class="form-control" name="phone_number" placeholder="Phone Number">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer bg-whitesmoke br">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="submit-btn">Save changes</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>

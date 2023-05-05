@@ -9,7 +9,7 @@ const getEmployees = async () => {
 };
 
 const insertEmployee = async () => {
-    let object = {
+    let employee = {
         nik: $("#nik").val(),
         firstName: $("#first_name").val(),
         lastName: $("#last_name").val(),
@@ -21,7 +21,7 @@ const insertEmployee = async () => {
     };
 
     try {
-        await DataSource.insertEmployee(object);
+        await DataSource.insertEmployee(employee);
 
         swal({
             title: "Success!",
@@ -31,9 +31,8 @@ const insertEmployee = async () => {
             timer: 1500,
         });
 
-        $("#addModal").modal("hide");
-        $("#employee-table").DataTable().destroy();
-        getEmployees();
+        $("#employeeModal").modal("hide");
+        reloadData();
     } catch (message) {
         swal({
             title: "Oops...",
@@ -43,13 +42,132 @@ const insertEmployee = async () => {
     }
 };
 
-const detailEmployee = async (id) => {
+const detailEmployee = async (nik) => {
     try {
-        const result = await DataSource.getEmployeeById(id);
+        const result = await DataSource.getEmployeeByNik(nik);
 
         renderResultDetail(result);
     } catch (message) {
         fallbackResultDetail(message);
+    }
+};
+
+const updateEmployee = async () => {
+    let employee = {
+        nik: $("#nik").val(),
+        firstName: $("#first_name").val(),
+        lastName: $("#last_name").val(),
+        birthDate: $("#birth_date").val(),
+        gender: parseInt($("#gender").val()),
+        hiringDate: $("#hiring_date").val(),
+        email: $("#email").val(),
+        phoneNumber: $("#phone_number").val(),
+    };
+
+    try {
+        const result = await DataSource.updateEmployee(employee);
+
+        swal({
+            title: 'Success!',
+            text: result.message,
+            icon: 'success',
+            buttons: false,
+            timer: 1500,
+        });
+
+        $('#employeeModal').modal('hide');
+        reloadData();
+    } catch (message) {
+        swal({
+            title: 'Oops...',
+            text: `${message}`,
+            icon: 'error',
+        });
+    }
+};
+
+const add = () => {
+    $('#employeeModal .modal-title').text('Add Employee');
+    $('#nik').val('');
+    $('#first_name').val('');
+    $('#last_name').val('');
+    $('#birth_date').val('');
+    $('#gender').val('');
+    $('#hiring_date').val('');
+    $('#email').val('');
+    $('#phone_number').val('');
+    $('#submit-btn').attr('value', 'add');
+    $('#submit-btn').html('Save changes');
+}
+
+const edit = async (nik) => {
+    try {
+        const result = await DataSource.getEmployeeByNik(nik);
+
+        $('#employeeModal .modal-title').text('Edit Employee');
+        $('#nik').val(result.nik);
+        $('#first_name').val(result.firstName);
+        $('#last_name').val(result.lastName);
+        $('#birth_date').val(result.birthDate);
+        $('#gender').val(result.gender);
+        $('#hiring_date').val(result.hiringDate);
+        $('#email').val(result.email);
+        $('#phone_number').val(result.phoneNumber);
+        $('#submit-btn').attr('value', 'edit');
+        $('#submit-btn').html('Update');
+    } catch (message) {
+        swal({
+            title: 'Oops...',
+            text: `${message}`,
+            icon: 'error',
+        });
+    }
+};
+
+const remove = async (nik) => {
+    try {
+        await swal({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this data!',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                await DataSource.deleteEmployee(nik);
+
+                swal({
+                    title: 'Success!',
+                    text: 'Employee has been deleted',
+                    icon: 'success',
+                    buttons: false,
+                    timer: 1500,
+                });
+
+                reloadData();
+            }
+        });
+    } catch (message) {
+        swal({
+            title: 'Oops...',
+            text: `${message}`,
+            icon: 'error',
+        });
+    }
+};
+
+const reloadData = async () => {
+    try {
+        const result = await DataSource.getEmployees();
+
+        $("#employee-table").DataTable().clear();
+        $("#employee-table").DataTable().rows.add(result).draw();
+    } catch (message) {
+        swal({
+            title: "Oops...",
+            text: `${message}`,
+            icon: "error",
+        });
     }
 };
 
@@ -88,14 +206,14 @@ const renderResult = (results) => {
                             </a>
                         </button>
 
-                        <button class="btn btn-icon icon-left btn-warning dt-edit" onclick="edit()" data-bs-toggle="modal" data-bs-target="#modalEdit">
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                        <button class="btn btn-icon icon-left btn-warning dt-edit" onclick="edit(${row['nik']})" data-toggle="modal" data-target="#employeeModal">
+                            <a data-toggle="tooltip" data-placement="top" title="Edit">
                                 <i class="far fa-edit"></i> Edit
                             </a>
                         </button>
 
-                        <button class="btn btn-danger dt-delete" id="hapus" onclick="remove(${row['nik']})" data-bs-toggle="modal" data-bs-target="#modalDelete">
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        <button class="btn btn-danger dt-delete" onclick="remove(${row['nik']})">
+                            <a data-toggle="tooltip" data-placement="top" title="Delete">
                                 <i class="far fa-trash-alt"></i> Delete
                             </a>
                         </button>
@@ -187,13 +305,34 @@ const fallbackResultDetail = (message) => {
 };
 
 const events = () => {
-    $("#submit-btn").click(function () {
-        insertEmployee();
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener(
+            'submit',
+            async function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if (form.checkValidity() === true) {
+                    const submitBtn = document.querySelector('#submit-btn');
+                    if (submitBtn.value === 'add') {
+                        await insertEmployee();
+                    } else {
+                        await updateEmployee();
+                    }
+                }
+
+                form.classList.add('was-validated');
+            },
+            false
+        );
     });
 
     $("#employee-list").on("click", ".dt-detail", function () {
-        let id = $(this).data("nik");
-        detailEmployee(id);
+        let nik = $(this).data("nik");
+        detailEmployee(nik);
     });
 };
 
