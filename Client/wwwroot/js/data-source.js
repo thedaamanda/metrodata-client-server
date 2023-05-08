@@ -1,6 +1,31 @@
 const BASE_URL = 'https://localhost:7169/';
 
 class DataSource {
+    // Authentication
+    static login(user) {
+        return fetch(`${BASE_URL}api/accounts/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseJson => {
+                if (responseJson.data) {
+                    return Promise.resolve(responseJson.data);
+                } else {
+                    return Promise.reject(responseJson.message)
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error)
+            }
+        );
+    }
+
     // University
     static getUniversities() {
         return fetch(`${BASE_URL}api/universities`)
