@@ -8,7 +8,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize(Roles = "User")]
+[Authorize(Roles = "User")]
 public class UniversitiesController : BaseController<int, University, IUniversityRepository>
 {
     public UniversitiesController(IUniversityRepository repository) : base(repository)
