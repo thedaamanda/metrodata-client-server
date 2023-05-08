@@ -175,11 +175,11 @@ const renderResult = (results) => {
     $("#employee-table").dataTable({
         dom: "Bfrtip",
         buttons: [
-            { extend: 'copy', text: 'Copy', titleAttr: 'Copy' },
-            { extend: 'csv', text: 'CSV', titleAttr: 'CSV' },
-            { extend: 'excel', text: 'Excel', titleAttr: 'Excel' },
-            { extend: 'pdf', text: 'PDF', titleAttr: 'PDF' },
-            { extend: 'print', text: 'Print', titleAttr: 'Print' }
+            { extend: 'copy', text: '<i class="fas fa-copy"></i> Copy', titleAttr: 'Copy', className: 'btn btn-primary', exportOptions: { columns: [ 0, 1, 2 ] } },
+            { extend: 'csv', text: '<i class="fas fa-file-csv"></i> CSV', titleAttr: 'CSV', className: 'btn btn-warning', exportOptions: { columns: [ 0, 1, 2 ] } },
+            { extend: 'excel', text: '<i class="fas fa-file-excel"></i> Excel', titleAttr: 'Excel', className: 'btn btn-success', exportOptions: { columns: [ 0, 1, 2 ] } },
+            { extend: 'pdf', text: '<i class="fas fa-file-pdf"></i> PDF', titleAttr: 'PDF', className: 'btn btn-danger', exportOptions: { columns: [ 0, 1, 2 ] } },
+            { extend: 'print', text: '<i class="fas fa-print"></i> Print', titleAttr: 'Print', className: 'btn btn-info', exportOptions: { columns: [ 0, 1, 2 ] } }
         ],
         data: results,
         columns: [
