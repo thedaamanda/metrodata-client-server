@@ -3,3 +3,13 @@
 
 // Write your JavaScript code.
 
+const auth = new Auth();
+
+const logout = document.querySelector('#logout');
+if (logout) {
+    logout.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        await auth.revokeToken();
+    });
+}
