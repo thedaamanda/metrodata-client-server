@@ -73,7 +73,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/universities`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -96,7 +96,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/universities/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -120,7 +120,7 @@ class DataSource {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
             body: JSON.stringify(university),
         })
@@ -145,7 +145,7 @@ class DataSource {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
             body: JSON.stringify(university),
         })
@@ -170,7 +170,7 @@ class DataSource {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -194,7 +194,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/roles`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -217,7 +217,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/roles/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -241,7 +241,7 @@ class DataSource {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
             body: JSON.stringify(role),
         })
@@ -266,7 +266,7 @@ class DataSource {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
             body: JSON.stringify(role),
         })
@@ -291,7 +291,7 @@ class DataSource {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -315,7 +315,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/educations`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -339,7 +339,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/employees`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -362,7 +362,7 @@ class DataSource {
         return fetch(`${BASE_URL}api/employees/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
@@ -386,7 +386,7 @@ class DataSource {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
             body: JSON.stringify(employee)
         })
@@ -411,7 +411,7 @@ class DataSource {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
             body: JSON.stringify(employee)
         })
@@ -435,7 +435,7 @@ class DataSource {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getJwtToken()}`,
+                'Authorization': `Bearer ${auth.getJwtToken()}`,
             },
         })
             .then(response => {
