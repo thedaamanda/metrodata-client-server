@@ -13,6 +13,30 @@ const isAunthenticated = () => {
     }
 }
 
+const isTokenExpired = () => {
+    const exp = auth.getUser().exp;
+    const now = new Date();
+
+    const dateNow = Math.round(now.getTime() / 1000);
+
+    if (exp < dateNow) {
+        if (auth.getRefreshToken()) {
+            auth.refreshToken();
+        } else {
+            swal({
+                title: 'Oops...',
+                text: 'Your session has expired',
+                icon: 'error',
+            })
+
+            setTimeout(async () => {
+                await auth.revokeToken();
+                window.location.href = '/account/login';
+            }, 5000);
+        }
+    }
+}
+
 const setProfile = () => {
     // const email = document.querySelector('#email');
     // email.innerHTML = auth.getUser.email;
@@ -21,11 +45,12 @@ const setProfile = () => {
     // role.innerHTML = auth.getUser.role;
 
     const nameIdentifier = document.querySelector('#nameIdentifier');
-    nameIdentifier.innerHTML = `Hi, ${auth.getUser.name}`;;
+    nameIdentifier.innerHTML = `Hi, ${auth.getUser().name}`;;
 };
 
 window.addEventListener('load', async () => {
     isAunthenticated();
+    isTokenExpired();
     setProfile();
 });
 
