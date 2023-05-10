@@ -29,7 +29,7 @@ namespace Client.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-            else if (result.Code == "409")
+            else if (result.Code == "400")
             {
                 ModelState.AddModelError(string.Empty, result.Message);
                 return View();
