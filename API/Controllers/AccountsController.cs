@@ -70,14 +70,16 @@ public class AccountsController : BaseController<string, Account, IAccountReposi
 
             await _repository.UpdateToken(userdata.Email, refreshToken, DateTime.Now.AddDays(1));
 
-            var generatedToken = new TokenResponseVM
-            {
-                Token = accessToken,
-                RefreshToken = refreshToken,
-                TokenType = "Bearer"
-            };
+            // var generatedToken = new TokenResponseVM
+            // {
+            //     Token = accessToken,
+            //     RefreshToken = refreshToken,
+            //     TokenType = "Bearer"
+            // };
 
-            return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = generatedToken });
+            var token = accessToken;
+
+            return Ok(new { code = StatusCodes.Status200OK, message = "Login Succesfully!", data = token });
         }
         catch
         {
