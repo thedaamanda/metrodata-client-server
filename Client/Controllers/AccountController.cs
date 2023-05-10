@@ -20,14 +20,10 @@ namespace Client.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
             var result = await repository.Login(loginVM);
-
-            Console.WriteLine("resultCode: " + result.Code);
-            Console.WriteLine("resultMessage: " + result.Message);
-            Console.WriteLine("resultData: " + result.Data);
 
             if (result is null)
             {
@@ -40,7 +36,6 @@ namespace Client.Controllers
             }
             else if (result.Code == "200")
             {
-
                 HttpContext.Session.SetString("JWToken", result.Data);
                 return RedirectToAction("Index","Home");
             }
